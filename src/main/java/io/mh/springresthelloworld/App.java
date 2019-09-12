@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 import java.math.BigDecimal;
 
@@ -17,6 +18,7 @@ public class App {
     }
 
     // init bean to insert 3 books into h2 database.
+    @Profile("dev")
     @Bean
     CommandLineRunner initDatabase(BookRepository repository) {
         return args -> {

@@ -7,14 +7,18 @@ import io.mh.springresthelloworld.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.Map;
 
 /**
  * @author mhlukhov on 9/12/2019
  */
+@Validated
 @RestController
 @RequiredArgsConstructor
 public class BookController {
@@ -31,13 +35,13 @@ public class BookController {
     // return 201 instead of 200
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/books")
-    Book newBook(@RequestBody Book newBook) {
+    Book newBook(@Valid @RequestBody Book newBook) {
         return repository.save(newBook);
     }
 
     // Find
     @GetMapping("/books/{id}")
-    Book findOne(@PathVariable Long id) {
+    Book findOne(@PathVariable @Min(1) Long id) {//jsr 303 annotations
         return repository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(id));
     }
