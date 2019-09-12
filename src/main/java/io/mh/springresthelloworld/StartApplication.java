@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.math.BigDecimal;
@@ -20,7 +19,6 @@ import java.util.List;
 /**
  * @author mhlukhov on 9/12/2019
  */
-@Profile("jdbc")
 @Slf4j
 @SpringBootApplication
 public class StartApplication implements CommandLineRunner {
