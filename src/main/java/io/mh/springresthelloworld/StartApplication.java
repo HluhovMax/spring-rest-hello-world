@@ -1,7 +1,9 @@
 package io.mh.springresthelloworld;
 
 import io.mh.springresthelloworld.model.Book;
+import io.mh.springresthelloworld.model.Customer;
 import io.mh.springresthelloworld.model.JdbcBook;
+import io.mh.springresthelloworld.repository.CustomerRepository;
 import io.mh.springresthelloworld.repository.JdbcBookRepository;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +37,9 @@ public class StartApplication implements CommandLineRunner {
     @Autowired
     JdbcBookRepository<Book, Long, Book> bookRepoImpl;
 
+    @Autowired
+    CustomerRepository customerRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(StartApplication.class, args);
     }
@@ -60,6 +65,25 @@ public class StartApplication implements CommandLineRunner {
         bookRepoImpl.save(new Book("A Guide to the Bodhisattva Way of Life", "Santideva", new BigDecimal("15.41")));
         bookRepoImpl.save(new Book("The Life-Changing Magic of Tidying Up", "Marie Kondo", new BigDecimal("9.69")));
         bookRepoImpl.save(new Book("Refactoring: Improving the Design of Existing Code", "Martin Fowler", new BigDecimal("47.99")));
+
+        // MONGO
+        customerRepository.deleteAll();
+        // save a couple of customers
+        customerRepository.save(new Customer("Alice", "Smith"));
+        customerRepository.save(new Customer("Bob", "Smith"));
+        // fetch all customers
+        System.out.println("Customers found with findAll():");
+        System.out.println("-------------------------------");
+        customerRepository.findAll().forEach(System.out::println);
+        System.out.println();
+        // fetch an individual customer
+        System.out.println("Customer found with findByFirstName('Alice'):");
+        System.out.println("--------------------------------");
+        System.out.println(customerRepository.findByFirstName("Alice"));
+        System.out.println("Customers found with findByLastName('Smith'):");
+        System.out.println("--------------------------------");
+        customerRepository.findByLastName("Smith").forEach(System.out::println);
+        // END
 
         List<JdbcBook> books = Arrays.asList(
                 new JdbcBook("Thinking in Java", new BigDecimal("46.32")),
